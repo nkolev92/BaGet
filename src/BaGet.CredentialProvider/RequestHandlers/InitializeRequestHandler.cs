@@ -1,12 +1,12 @@
-﻿using NuGet.Protocol.Plugins;
-using System.Diagnostics;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using BaGet.CredentialProvider.Logging;
+using NuGet.Protocol.Plugins;
 
 namespace BaGet.CredentialProvider.RequestHandlers
 {
     internal class InitializeRequestHandler : RequestHandlerBase<InitializeRequest, InitializeResponse>
     {
-        public InitializeRequestHandler(TraceSource logger) : base(logger)
+        public InitializeRequestHandler(ILogger logger) : base(logger)
         {
         }
 

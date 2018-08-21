@@ -1,9 +1,9 @@
-﻿using Newtonsoft.Json;
-using NuGet.Protocol.Plugins;
-using System;
-using System.Diagnostics;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using BaGet.CredentialProvider.Logging;
+using Newtonsoft.Json;
+using NuGet.Protocol.Plugins;
 
 namespace BaGet.CredentialProvider.RequestHandlers
 {
@@ -14,9 +14,9 @@ namespace BaGet.CredentialProvider.RequestHandlers
 
         public IConnection Connection { get; private set; }
 
-        public TraceSource Logger { get; }
+        public ILogger Logger { get; }
 
-        protected RequestHandlerBase(TraceSource logger)
+        protected RequestHandlerBase(ILogger logger)
         {
             Logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
@@ -29,11 +29,11 @@ namespace BaGet.CredentialProvider.RequestHandlers
 
             TRequest request = MessageUtilities.DeserializePayload<TRequest>(message);
 
-            Logger.Verbose($"Handling request '{message.Method}' - {message.Payload.ToString(Formatting.None)}'");
+            Logger.Log(NuGet.Common.LogLevel.Verbose, $"Handling request '{message.Method}' - {message.Payload.ToString(Formatting.None)}'");
 
             TResponse response = await HandleRequestAsync(request).ConfigureAwait(continueOnCapturedContext: false);
 
-            Logger.Verbose($"Sending response: '{JsonConvert.SerializeObject(response, new JsonSerializerSettings { Formatting = Formatting.None })}'");
+            Logger.Log(NuGet.Common.LogLevel.Verbose, $"Sending response: '{JsonConvert.SerializeObject(response, new JsonSerializerSettings { Formatting = Formatting.None })}'");
 
             await responseHandler.SendResponseAsync(message, response, cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
         }
