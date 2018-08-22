@@ -13,7 +13,8 @@ namespace BaGet.CredentialProvider.RequestHandlers
 
         public override Task<SetCredentialsResponse> HandleRequestAsync(SetCredentialsRequest request)
         {
-            throw new NotImplementedException();
+            // TODO NK - Set the proxy settings. This credential request is only valid if it's setting a proxy.
+            return Task.FromResult(new SetCredentialsResponse(MessageResponseCode.Success));
         }
     }
 }

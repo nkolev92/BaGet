@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Globalization;
+using System.Threading.Tasks;
 using BaGet.CredentialProvider.Logging;
 using NuGet.Protocol.Plugins;
 
@@ -12,6 +13,7 @@ namespace BaGet.CredentialProvider.RequestHandlers
 
         public override Task<InitializeResponse> HandleRequestAsync(InitializeRequest request)
         {
+            CultureInfo.CurrentCulture = new CultureInfo(request.Culture);
             return Task.FromResult(new InitializeResponse(MessageResponseCode.Success));
         }
     }

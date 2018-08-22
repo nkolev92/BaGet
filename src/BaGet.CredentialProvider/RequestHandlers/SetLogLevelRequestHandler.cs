@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using BaGet.CredentialProvider.Logging;
 using NuGet.Protocol.Plugins;
 
@@ -13,7 +12,9 @@ namespace BaGet.CredentialProvider.RequestHandlers
 
         public override Task<SetLogLevelResponse> HandleRequestAsync(SetLogLevelRequest request)
         {
-            throw new NotImplementedException();
+            Logger.SetLogLevel(request.LogLevel);
+
+            return Task.FromResult(new SetLogLevelResponse(MessageResponseCode.Success));
         }
     }
 }

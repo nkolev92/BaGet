@@ -20,7 +20,7 @@ namespace BaGet.CredentialProvider
                 tokenSource.Cancel();
                 eventArgs.Cancel = true;
             };
-
+            // TODO NK - parse the arguments, this should only work when the -plugin argument is passed.
             var logger = new MultiLogger();
             logger.Add(new FileLogger());
 
