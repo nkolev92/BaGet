@@ -21,7 +21,8 @@ namespace BaGet.CredentialProvider
                 eventArgs.Cancel = true;
             };
 
-            var logger = new MultiLogger() { new FileLogger() };
+            var logger = new MultiLogger();
+            logger.Add(new FileLogger());
 
             var requestHandlers = new RequestHandlerCollection
                 {
@@ -33,7 +34,7 @@ namespace BaGet.CredentialProvider
                 };
             logger.Log(LogLevel.Debug, "plugin mode");
 
-            using (IPlugin plugin = await PluginFactory.CreateFromCurrentProcessAsync(requestHandlers, BaGetPluginConstants.GetConnectionOptions(), tokenSource.Token).ConfigureAwait(continueOnCapturedContext: false))
+            using (IPlugin plugin = await PluginFactory.CreateFromCurrentProcessAsync(requestHandlers, PluginUtilities.GetConnectionOptions(), tokenSource.Token).ConfigureAwait(continueOnCapturedContext: false))
             {
                 if (plugin.Connection.ProtocolVersion != ProtocolConstants.CurrentVersion)
                 {
